@@ -997,4 +997,5 @@
             <column name="end_date"/>
         </createIndex>
     </changeSet>
+
 </databaseChangeLog>
