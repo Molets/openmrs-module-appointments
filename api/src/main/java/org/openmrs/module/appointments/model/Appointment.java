@@ -10,6 +10,7 @@ import org.openmrs.annotation.Independent;
 import org.openmrs.module.appointments.notification.NotificationResult;
 import org.openmrs.module.appointments.util.DateUtil;
 
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
@@ -48,6 +49,18 @@ public class Appointment extends BaseOpenmrsData implements Serializable {
     @Independent
     private Set<Encounter> fulfillingEncounters;
     private Set<AppointmentReason> reasons;
+
+    /*  MOLETSANE Changes  */
+    @Transient
+    private String patientProgramId;
+
+    public void setPatientProgramId(String patientProgramId) {
+        this.patientProgramId = patientProgramId;
+    }
+
+    public String getPatientProgramId() {
+        return patientProgramId;
+    }
 
     /**
      * This attribute is not a entity property. Just a placeholder for the clients to prepare response relevant  to notification

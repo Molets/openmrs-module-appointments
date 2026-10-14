@@ -207,14 +207,37 @@ public class AppointmentsServiceImpl implements AppointmentsService {
     @Override
     public List<Appointment> getAllAppointments(Date forDate) {
         List<Appointment> appointments = appointmentDao.getAllAppointments(forDate);
-        return appointments.stream().filter(appointment -> !isServiceOrServiceTypeVoided(appointment)).collect(Collectors.toList());
+        appointments = appointments.stream().filter(appointment -> !isServiceOrServiceTypeVoided(appointment)).collect(Collectors.toList());
+        appointments.forEach(appointment -> {
+            appointment.getPatient().getIdentifiers().stream()
+                    // 1. Filter for the identifier type with ID equal to 5
+                    .filter(patientIdentifier -> patientIdentifier.getIdentifierType().getId() == 5)
+                    // 2. Get the actual identifier value (or ID) from that matching type
+                    .map(patientIdentifier -> patientIdentifier.getIdentifier())
+                    .findFirst()
+                    // 3. If found, set it on the appointment
+                    .ifPresent(identifierValue -> {appointment.setPatientProgramId(identifierValue); appointment.setComments(identifierValue);});
+        });
+        return appointments;
     }
 
     @Transactional
     @Override
     public List<Appointment> getAllAppointmentsReminder(String hours) {
         List<Appointment> appointments = appointmentDao.getAllAppointmentsReminder(hours);
-        return appointments.stream().filter(appointment -> !isServiceOrServiceTypeVoided(appointment)).collect(Collectors.toList());
+        appointments = appointments.stream().filter(appointment -> !isServiceOrServiceTypeVoided(appointment)).collect(Collectors.toList());
+
+        appointments.forEach(appointment -> {
+            appointment.getPatient().getIdentifiers().stream()
+                    // 1. Filter for the identifier type with ID equal to 5
+                    .filter(patientIdentifier -> patientIdentifier.getIdentifierType().getId() == 5)
+                    // 2. Get the actual identifier value (or ID) from that matching type
+                    .map(patientIdentifier -> patientIdentifier.getIdentifier())
+                    .findFirst()
+                    // 3. If found, set it on the appointment
+                    .ifPresent(identifierValue -> {appointment.setPatientProgramId(identifierValue); appointment.setComments(identifierValue);});
+        });
+        return appointments;
 
     }
 
@@ -246,19 +269,52 @@ public class AppointmentsServiceImpl implements AppointmentsService {
     @Transactional
     @Override
     public List<Appointment> getAllFutureAppointmentsForService(AppointmentServiceDefinition appointmentServiceDefinition) {
-        return appointmentDao.getAllFutureAppointmentsForService(appointmentServiceDefinition);
+        List<Appointment> appointments = appointmentDao.getAllFutureAppointmentsForService(appointmentServiceDefinition);
+        appointments.forEach(appointment -> {
+            appointment.getPatient().getIdentifiers().stream()
+                    // 1. Filter for the identifier type with ID equal to 5
+                    .filter(patientIdentifier -> patientIdentifier.getIdentifierType().getId() == 5)
+                    // 2. Get the actual identifier value (or ID) from that matching type
+                    .map(patientIdentifier -> patientIdentifier.getIdentifier())
+                    .findFirst()
+                    // 3. If found, set it on the appointment
+                    .ifPresent(identifierValue -> {appointment.setPatientProgramId(identifierValue); appointment.setComments(identifierValue);});
+        });
+        return appointments;
     }
 
     @Transactional
     @Override
     public List<Appointment> getAllFutureAppointmentsForServiceType(AppointmentServiceType appointmentServiceType) {
-        return appointmentDao.getAllFutureAppointmentsForServiceType(appointmentServiceType);
+        List<Appointment> appointments = appointmentDao.getAllFutureAppointmentsForServiceType(appointmentServiceType);
+        appointments.forEach(appointment -> {
+            appointment.getPatient().getIdentifiers().stream()
+                    // 1. Filter for the identifier type with ID equal to 5
+                    .filter(patientIdentifier -> patientIdentifier.getIdentifierType().getId() == 5)
+                    // 2. Get the actual identifier value (or ID) from that matching type
+                    .map(patientIdentifier -> patientIdentifier.getIdentifier())
+                    .findFirst()
+                    // 3. If found, set it on the appointment
+                    .ifPresent(identifierValue -> {appointment.setPatientProgramId(identifierValue); appointment.setComments(identifierValue);});
+        });
+        return appointments;
     }
 
     @Transactional
     @Override
     public List<Appointment> getAppointmentsForService(AppointmentServiceDefinition appointmentServiceDefinition, Date startDate, Date endDate, List<AppointmentStatus> appointmentStatusList) {
-        return appointmentDao.getAppointmentsForService(appointmentServiceDefinition, startDate, endDate, appointmentStatusList);
+        List<Appointment> appointments = appointmentDao.getAppointmentsForService(appointmentServiceDefinition, startDate, endDate, appointmentStatusList);
+        appointments.forEach(appointment -> {
+            appointment.getPatient().getIdentifiers().stream()
+                    // 1. Filter for the identifier type with ID equal to 5
+                    .filter(patientIdentifier -> patientIdentifier.getIdentifierType().getId() == 5)
+                    // 2. Get the actual identifier value (or ID) from that matching type
+                    .map(patientIdentifier -> patientIdentifier.getIdentifier())
+                    .findFirst()
+                    // 3. If found, set it on the appointment
+                    .ifPresent(identifierValue -> {appointment.setPatientProgramId(identifierValue); appointment.setComments(identifierValue);});
+        });
+        return appointments;
     }
 
     @Transactional
@@ -302,7 +358,18 @@ public class AppointmentsServiceImpl implements AppointmentsService {
     @Override
     public List<Appointment> getAllAppointmentsInDateRange(Date startDate, Date endDate) {
         List<Appointment> appointments = appointmentDao.getAllAppointmentsInDateRange(startDate, endDate);
-        return appointments.stream().filter(appointment -> !isServiceOrServiceTypeVoided(appointment)).collect(Collectors.toList());
+        appointments = appointments.stream().filter(appointment -> !isServiceOrServiceTypeVoided(appointment)).collect(Collectors.toList());
+        appointments.forEach(appointment -> {
+            appointment.getPatient().getIdentifiers().stream()
+                    // 1. Filter for the identifier type with ID equal to 5
+                    .filter(patientIdentifier -> patientIdentifier.getIdentifierType().getId() == 5)
+                    // 2. Get the actual identifier value (or ID) from that matching type
+                    .map(patientIdentifier -> patientIdentifier.getIdentifier())
+                    .findFirst()
+                    // 3. If found, set it on the appointment
+                    .ifPresent(identifierValue -> {appointment.setPatientProgramId(identifierValue); appointment.setComments(identifierValue);});
+        });
+        return appointments;
     }
 
     @Transactional
